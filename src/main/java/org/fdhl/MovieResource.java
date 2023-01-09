@@ -1,5 +1,8 @@
 package org.fdhl;
 
+import org.fdhl.model.Movie;
+import org.fdhl.repository.MovieRepository;
+
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 import javax.ws.rs.*;

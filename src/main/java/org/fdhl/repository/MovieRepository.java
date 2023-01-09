@@ -1,6 +1,7 @@
-package org.fdhl;
+package org.fdhl.repository;
 
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
+import org.fdhl.model.Movie;
 
 import javax.enterprise.context.ApplicationScoped;
 import java.util.Collections;
