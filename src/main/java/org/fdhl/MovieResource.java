@@ -49,6 +49,15 @@ public class MovieResource {
         return Response.ok(movies).build();
     }
 
+    @GET
+    @Path("director/{director}")
+    public Response getByDirector(@PathParam("director") String director) {
+        return movieRepository.find("director", director)
+                .singleResultOptional()
+                .map(movie -> Response.ok(movie).build())
+                .orElse(Response.status(Response.Status.NOT_FOUND).build());
+    }
+
     @POST
     @Transactional
     public Response create(Movie movie) {
