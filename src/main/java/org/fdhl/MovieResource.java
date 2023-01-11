@@ -10,6 +10,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.net.URI;
 import java.util.List;
+import java.util.UUID;
 
 @Path("/movies")
 @Produces(MediaType.APPLICATION_JSON)
@@ -27,7 +28,7 @@ public class MovieResource {
 
     @GET
     @Path("{id}")
-    public Response getById(@PathParam("id") Long id) {
+    public Response getById(@PathParam("id") UUID id) {
         return movieRepository.findByIdOptional(id)
                 .map(movie -> Response.ok(movie).build())
                 .orElse(Response.status(Response.Status.NOT_FOUND).build());
@@ -61,7 +62,7 @@ public class MovieResource {
     @POST
     @Transactional
     public Response create(Movie movie) {
-        movieRepository.merge(movie);
+        movieRepository.persist(movie);
         if (movieRepository.isPersistent(movie)) {
             return Response.created(URI.create("/movies/" + movie.getId())).build();
         }
@@ -71,12 +72,13 @@ public class MovieResource {
     @PUT
     @Path("{id}")
     @Transactional
-    public Response update(@PathParam("id") Long id, Movie movie) {
+    public Response update(@PathParam("id") UUID id, Movie movie) {
         movie.setId(id);
         movieRepository.merge(movie);
         return Response.noContent().build();
     }
 
+    // Delete by id
     @DELETE
     @Path("{id}")
     @Transactional
